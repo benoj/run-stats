@@ -1,0 +1,36 @@
+group 'com.benoj'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+
+project.ext {
+    dropwizardVersion = '0.8.2'
+}
+mainClassName = 'com.benoj.runningStats.RunningStatsApplication'
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile(
+            "io.dropwizard:dropwizard-core:$dropwizardVersion",
+            "io.dropwizard:dropwizard-forms:$dropwizardVersion",
+            "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.5.3",
+            "commons-io:commons-io:2.4"
+    )
+    testCompile(
+            'junit:junit:4.11',
+            "com.shazam:shazamcrest:0.11",
+            "io.dropwizard:dropwizard-testing:$dropwizardVersion"
+    )
+}
+
+run {
+    classpath = sourceSets.main.runtimeClasspath
+
+    println "Running against local environment"
+    args 'server', './configuration/local.yml'
+}
